@@ -9,7 +9,7 @@
 char *render_file(const char *file_name) 
 {
     char cmd[256];
-    snprintf(cmd, sizeof(cmd), "php-cgi %s", file_name);
+    snprintf(cmd, sizeof(cmd), "php %s", file_name);
 
     FILE* fp = popen(cmd, "r");
     if (fp == NULL) 
@@ -29,14 +29,14 @@ char *render_file(const char *file_name)
         response[0] = '\0';
     }
 
-    char *http_header = (char *)malloc(sizeof(char) * 8192);
+    char *http_header = (char *)malloc(sizeof(char) * 8192 + strlen(response));
     if (http_header == NULL) 
     {
         perror("malloc");
         exit(-1);
     }
 
-    snprintf(http_header, 8192, "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n%s\r\n", response);
+    snprintf(http_header, 8192 + strlen(response) + 1, "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n%s", response);
 
     return http_header;
 }
