@@ -99,8 +99,8 @@ int main(void)
 
         else 
         {
-            const char *not_found = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1><p>The requested URL was not found on this server.</p></body></html>";
-            http_header = strdup(not_found);
+            // If there is no specified file, just render main.php
+            http_header = render_file("main.php");
         }
 
         send(clientfd, http_header, strlen(http_header) + 1, 0);
