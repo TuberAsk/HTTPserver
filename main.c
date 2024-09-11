@@ -50,6 +50,13 @@ int main(void)
         return -1;
     }
 
+    int optval = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0) 
+    {
+        perror("setsockopt");
+        return -1;
+    }
+
     struct sockaddr_in server_addr, client_addr;
     inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
     server_addr.sin_family = AF_INET;
